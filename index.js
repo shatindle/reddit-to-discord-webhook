@@ -58,7 +58,7 @@ function processSubreddit() {
         }
       });
 
-      setTimeout(processSubreddit, 60000);
+      //setTimeout(processSubreddit, 60000);
     });
 }
 
