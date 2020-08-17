@@ -27,7 +27,8 @@ function processSubreddit() {
           id: submission.id,
           user: submission.author.name,
           url: submission.permalink,
-          flairId: submission.author_flair_css_class,
+          flairId: submission.link_flair_css_class,
+          contestant: false
         };
 
         var result = db
@@ -36,20 +37,24 @@ function processSubreddit() {
           .find({ id: post.id })
           .value();
 
-        if (!result && post.flairId === "???") {
+        if (!result) {
+          if (post.flairId === "artcontest") {
+            post.contestant = true;
+  
+            var message = new webhook.MessageBuilder()
+              .setName("Art submission by u/" + post.user)
+              .setColor("#F02D7D")
+              .setImage(post.thumbnail)
+              .setText(post.title + "\n\nhttps://reddit.com" + post.url);
+  
+            Hook.send(message);
+          }
+
           // new post
           db.get("processedposts")
             // @ts-ignore
             .push(post)
             .write();
-
-          var message = new webhook.MessageBuilder()
-            .setName("Art submission by u/" + post.user)
-            .setColor("#F02D7D")
-            .setImage(post.thumbnail)
-            .setText(post.title + "\n\nhttps://reddit.com" + post.url);
-
-          Hook.send(message);
         }
       });
 
