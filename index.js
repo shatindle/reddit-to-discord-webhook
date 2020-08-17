@@ -27,6 +27,7 @@ function processSubreddit() {
           id: submission.id,
           user: submission.author.name,
           url: submission.permalink,
+          flairId: submission.author_flair_css_class,
         };
 
         var result = db
@@ -35,7 +36,7 @@ function processSubreddit() {
           .find({ id: post.id })
           .value();
 
-        if (!result) {
+        if (!result && post.flairId === "???") {
           // new post
           db.get("processedposts")
             // @ts-ignore
