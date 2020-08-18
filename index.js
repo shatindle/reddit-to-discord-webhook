@@ -40,6 +40,12 @@ function processSubreddit() {
         if (!result) {
           if (post.flairId === "artcontest") {
             post.contestant = true;
+
+            // new post
+            db.get("processedposts")
+              // @ts-ignore
+              .push(post)
+              .write();
   
             var message = new webhook.MessageBuilder()
               .setName("Art submission by u/" + post.user)
@@ -49,12 +55,6 @@ function processSubreddit() {
   
             Hook.send(message);
           }
-
-          // new post
-          db.get("processedposts")
-            // @ts-ignore
-            .push(post)
-            .write();
         }
       });
 
