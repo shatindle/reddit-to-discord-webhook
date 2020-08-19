@@ -16,7 +16,7 @@ const r = new snoowrap(oauth_info);
 
 function processSubreddit() {
   r.getSubreddit("r/Splatoon")
-    .search({ query: "flair_name:\"Art Contest\"" })
+    .search({ query: "flair_name:\"Art Contest\"", sort: "new" })
     .then((submissions) => {
       submissions.forEach((submission) => {
         var post = {
