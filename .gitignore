@@ -3,3 +3,4 @@ oauth_info.json
 webhook.json
 db.json
 package-lock.json
+.vscode

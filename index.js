@@ -16,7 +16,7 @@ const r = new snoowrap(oauth_info);
 
 function processSubreddit() {
   r.getSubreddit("r/Splatoon")
-    .getNew()
+    .search({ query: "flair_name:\"Art Contest\"" })
     .then((submissions) => {
       submissions.forEach((submission) => {
         var post = {
@@ -40,7 +40,7 @@ function processSubreddit() {
         if (!result) {
           if (post.flairId === "artcontest") {
             post.contestant = true;
-
+            
             // new post
             db.get("processedposts")
               // @ts-ignore
