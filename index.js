@@ -41,19 +41,20 @@ function processSubreddit() {
           if (post.flairId === "artcontest") {
             post.contestant = true;
             
-            // new post
-            db.get("processedposts")
-              // @ts-ignore
-              .push(post)
-              .write();
   
             var message = new webhook.MessageBuilder()
-              .setName("Art submission by u/" + post.user)
+              .setName("Art by u/" + post.user)
               .setColor("#F02D7D")
               .setImage(post.thumbnail)
               .setText(post.title + "\n\nhttps://reddit.com" + post.url);
   
             Hook.send(message);
+
+            // new post
+            db.get("processedposts")
+              // @ts-ignore
+              .push(post)
+              .write();
           }
         }
       });
